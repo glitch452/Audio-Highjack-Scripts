@@ -1,8 +1,11 @@
 import typescript from '@rollup/plugin-typescript';
-import glob from 'glob';
+import fs from 'fs';
+import path from 'path';
 
-export default {
-  input: glob.sync('src/commands/*.ts'),
+const INPUT_DIR = 'src/commands';
+
+const configs = fs.readdirSync(INPUT_DIR).map((file) => ({
+  input: path.join(INPUT_DIR, file),
 
   plugins: [typescript({ removeComments: true })],
 
@@ -11,4 +14,6 @@ export default {
     format: 'es',
     entryFileNames: '[name].ahcommand',
   },
-};
+}));
+
+export default configs;
